@@ -66,10 +66,12 @@ func ComputeHash(i interface{}) uint64 {
 		}
 		return xxhash.Sum64(b8)
 
-	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		binary.BigEndian.PutUint64(b8, uint64(v.Int()))
 		return xxhash.Sum64(b8)
-
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+		binary.BigEndian.PutUint64(b8, v.Uint())
+		return xxhash.Sum64(b8)
 	case reflect.Float32, reflect.Float64:
 		binary.BigEndian.PutUint64(b8, math.Float64bits(v.Float()))
 		return xxhash.Sum64(b8)
